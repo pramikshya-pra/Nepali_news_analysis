@@ -1,0 +1,151 @@
+##------------ Document methodology, experiments, and findings clearly--------------##
+
+1. Introduction
+
+This project focuses on building an AI-based Nepali News Classification System that automatically categorizes Nepali news articles into predefined categories such as Politics, Sports, Economy, Art, Society, Blog, and others.
+The system is designed to strengthen practical skills in:
+
+    * Natural Language Processing (NLP)
+
+    * Machine Learning (ML)
+
+    * Real-world AI system development
+
+
+2. Data Collection Methodology
+
+2.1 - Data Source: 
+    Nepali news articles were collected through web scraping from a reliable Nepali news portal "Setopati.com".
+
+2.2 Scraping Technique: 
+
+    1. Programming Language: Python
+    2. Library Used: BeautifulSoup
+    3. Approach:
+        * Category-wise scraping (Politics, Sports, Economy, etc.)
+        * Extracted:
+            - Category name
+            - News headline
+            - Full article content (Nepali text)
+
+2.3 Dataset Structure: 
+Each data record contains:
+    1. Category
+    2. Headline
+    3. Content
+The scraped data was stored in CSV format, making it suitable for ML workflows.
+
+
+3. Data Cleaning & Preprocessing
+
+3.1 Challenges faced in Nepali Text:
+
+    1. No standard Nepali stopword list
+    2. Presence of symbols, punctuation, and mixed English text
+    3. Unicode-specific text handling
+
+3.2 Cleaning Steps Applied:
+
+    1. Removed English characters and digits.
+    2. Removed special symbols and punctuation.
+    3. Retained only Nepali Unicode characters (Devanagari range).
+    4. Tokenized text using whitespace.
+    5. Removed custom Nepali stopwords.
+    6. Normalized spacing.
+
+3.3 Output:
+
+A new column clean_content was created, which contains clean, normalized Nepali text ready 
+for feature extraction.
+
+
+4. Feature Engineering
+
+4.1 TF-IDF Vectorization:
+    To convert text into numerical features, TF-IDF (Term Frequency–Inverse Document Frequency) 
+    was used.
+
+    Configuration:
+
+    * Maximum features: 5000
+    * N-grams: Unigrams and Bigrams (it helps to find nepali phrages)
+    * Removed extremely rare and overly frequent words
+
+4.2 Why TF-IDF?:
+
+* Language independent (works well for Nepali)
+* Reduces importance of common words
+* Highlights discriminative terms
+* Efficient and scalable
+
+
+5. Model Development (Experiments)
+
+Three classical machine learning models were trained and evaluated.
+    
+5.1 Naive Bayes (Baseline Model):
+
+    * Model: Multinomial Naive Bayes
+    * Purpose: Establish a fast and simple baseline
+    * Observation:
+        - Fast training
+        - Reasonable accuracy
+        - Limited ability to capture complex patterns
+
+5.2 Logistic Regression: 
+
+* Linear classification model
+* Better handling of overlapping features
+* Observation:
+    - Improved accuracy over Naive Bayes
+    - Stable and interpretable results
+
+5.3 Support Vector Machine (SVM):
+
+* Model: Linear SVM
+* Designed for high-dimensional sparse data
+* Observation:
+    - Best overall performance
+    - High precision and recall
+    - Most suitable for text classification tasks
+
+
+6. Model Evaluation
+
+6.1 Evaluation Metrics Used:
+
+    1. Accuracy
+    2. Precision
+    3. Recall
+    4. F1-score
+    5. Confusion Matrix
+
+6.2 Results Summary:
+
+Model                            Performance                Remarks               
+-----------------------------------------------------------------------
+
+1. Naive Bayes    --------------> Good    ---------------> Strong baseline     
+2. Logistic Regression ---------> Better -------->   Better performance than Naive Bayes 
+3. SVM           ----------------> Best than previous  -------> Chosen as final model
+
+
+In sum,
+The SVM model achieved the highest F1-score, indicating strong classification capability across
+multiple categories.
+
+
+7. Key Findings:
+
+1. Classical ML models perform effectively for Nepali text classification when combined with proper preprocessing.
+2. TF-IDF with n-grams significantly improves model performance.
+3. SVM outperformed Naive Bayes and Logistic Regression in terms of accuracy and F1-score.
+4. A clean preprocessing pipeline is critical for Nepali-language NLP tasks.
+
+
+8. Limitations:
+
+1. Nepali stopword list may not cover all Nepali variations.
+2. Dataset size can be expanded for better generalization.
+3. No deep learning or transformer-based model used in the current phase.
+
